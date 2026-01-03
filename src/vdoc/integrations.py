@@ -17,6 +17,64 @@ def setup_integrations(root_path: Path):
     cursor_rules_file = root_path / ".cursorrules"
     if cursor_rules_file.exists() or (root_path / ".cursor").exists():
          install_cursor_rules(cursor_rules_file)
+    
+    # 3. VS Code (.vscode/tasks.json)
+    vscode_dir = root_path / ".vscode"
+    if vscode_dir.exists():
+        install_vscode_task(vscode_dir)
+
+def install_vscode_task(vscode_dir: Path):
+    """
+    Adds vdoc tasks to .vscode/tasks.json
+    """
+    import json
+    tasks_file = vscode_dir / "tasks.json"
+    
+    vdoc_tasks = [
+        {
+            "label": "vdoc: plan",
+            "type": "shell",
+            "command": "vdoc plan",
+            "problemMatcher": []
+        },
+        {
+            "label": "vdoc: exec",
+            "type": "shell",
+            "command": "vdoc exec",
+            "problemMatcher": []
+        }
+    ]
+    
+    if not tasks_file.exists():
+        content = {
+            "version": "2.0.0",
+            "tasks": vdoc_tasks
+        }
+        with open(tasks_file, "w") as f:
+            json.dump(content, f, indent=4)
+        console.print(f"[bold green]✓[/bold green] Created .vscode/tasks.json")
+    else:
+        # Append to existing
+        try:
+            with open(tasks_file, "r") as f:
+                content = json.load(f)
+            
+            existing_labels = {t.get("label") for t in content.get("tasks", [])}
+            added = False
+            for task in vdoc_tasks:
+                if task["label"] not in existing_labels:
+                    content.setdefault("tasks", []).append(task)
+                    added = True
+            
+            if added:
+                with open(tasks_file, "w") as f:
+                    json.dump(content, f, indent=4)
+                console.print(f"[bold green]✓[/bold green] Updated .vscode/tasks.json")
+            else:
+                console.print("[yellow]! VS Code tasks already exist, skipping.[/yellow]")
+                
+        except json.JSONDecodeError:
+            console.print("[red]! Could not parse .vscode/tasks.json, skipping integration.[/red]")
          
 def install_antigravity_workflow(workflows_dir: Path):
     """
