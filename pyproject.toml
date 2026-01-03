@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vdoc"
+version = "0.1.0"
+description = "A Context Builder CLI for IDE-native AI agents"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "VDoc Team", email = "hello@vdoc.local" },
+]
+dependencies = [
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "gitpython>=3.1.0",
+]
+
+[project.scripts]
+vdoc = "vdoc.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vdoc"]
