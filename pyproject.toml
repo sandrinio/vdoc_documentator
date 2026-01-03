@@ -7,7 +7,7 @@ name = "vdoc"
 version = "0.1.0"
 description = "A Context Builder CLI for IDE-native AI agents"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [
     { name = "VDoc Team", email = "hello@vdoc.local" },
