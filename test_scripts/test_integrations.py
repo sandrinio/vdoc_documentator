@@ -30,6 +30,17 @@ def test_integration_injection(tmp_path):
     assert plan_rule.exists()
     assert exec_rule.exists()
     
-    # 4. Check Content
-    assert "@VDoc Plan" in plan_rule.read_text()
-    assert "@VDoc Exec" in exec_rule.read_text()
+    # 4. Check Cursor Rule Content
+    assert "/vdoc-plan" in plan_rule.read_text()
+    assert "/vdoc-exec" in exec_rule.read_text()
+
+    # 5. Check Antigravity Workflows
+    workflow_dir = tmp_path / ".agent" / "workflows"
+    assert workflow_dir.exists()
+    
+    plan_workflow = workflow_dir / "vdoc-plan.md"
+    exec_workflow = workflow_dir / "vdoc-exec.md"
+    
+    assert plan_workflow.exists()
+    assert exec_workflow.exists()
+    assert "Run the VDoc Planning workflow" in plan_workflow.read_text()
