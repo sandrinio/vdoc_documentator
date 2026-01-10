@@ -27,7 +27,7 @@ def run_init(api_key: Optional[str] = None):
         save_config(config)
         console.print(f"[bold green]✓[/bold green] Created {config_path.name}")
         
-        # 2. Run Integrations
+        # 2. Run Integrations (Inject Rules)
         setup_integrations(root_path)
         
         # 3. Scan & Create Context Map

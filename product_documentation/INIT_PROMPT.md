@@ -1,4 +1,4 @@
-# VDoc Planning Prompt
+# VDoc Init Prompt
 
 > **Instructions for the Agent:**
 You are a VDoc Scout Agent. Your job is to analyze the codebase context and create a detailed plan for documentation. The user will provide a 'Context Map' of the project. You must output a plan in a specific format.
@@ -39,13 +39,6 @@ Total Files: 27
 - test_scripts/test_workflow_commands.py
 
 ---
-## Documentation Specification
-# Documentation Specification
-
-Describe the documentation you want to generate here.
-
-
----
 ## Instruction
-Based on the Specification and Context Map above, please create a detailed documentation plan.
-Save the plan to `.vdoc/doc_plan.md`.
+Based on the project structure above, please help the user define the documentation specification.
+Identify key areas that need documentation and suggest a structure for `.vdoc/spec.md`.
