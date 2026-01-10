@@ -1,5 +1,6 @@
 from pathlib import Path
 from rich.console import Console
+import typer
 from vdoc import config, services
 
 console = Console()
@@ -8,26 +9,25 @@ def run_exec():
     """
     Execute the documentation plan.
     """
-    root_path = Path.cwd()
-    plan_file = root_path / ".vdoc" / "doc_plan.md"
+    config_path = config.get_config_path()
+    vdoc_dir = config_path.parent
+    root_path = config_path.parent.parent
+    
+    plan_file = vdoc_dir / "doc_plan.md"
     
     # 1. Pre-flight Check
     if not plan_file.exists():
         console.print("[bold red]Error: Documentation plan missing.[/bold red]")
         console.print(f"Expected at: {plan_file}")
         console.print("Run [bold cyan]vdoc plan[/bold cyan] first and have your Agent create the plan.")
-        raise SystemExit(1)
+        raise typer.Exit(code=1)
         
     # 2. Fetch Prompts (Writer)
     with console.status("[bold green]Fetching prompts...[/bold green]"):
         cfg = config.load_config()
         prompts = services.get_prompts_sync(cfg.api_key)
         
-    # 3. Read Plan & Gather Context
-    # For MVP, we simply include the plan itself and ask the agent to execute it.
-    # In a real version, we might parse the files mentioned in the plan and include their contents.
-    # For now, let's include the plan content.
-    
+    # 3. Read Plan
     with open(plan_file, "r") as f:
         plan_content = f.read()
         
@@ -41,7 +41,7 @@ def run_exec():
         "# VDoc Execution Prompt",
         "",
         "> **Instructions for the Agent:**",
-        prompts["writer_system_prompt"],
+        prompts.get("writer_system_prompt", "Execute the plan below and write the documentation."), # Fallback
         "",
         "---",
         "",

@@ -1,5 +1,5 @@
 import typer
-from .commands import init, plan, exec
+from .commands import init, plan, exec, update
 
 app = typer.Typer(
     help="VDoc - Local Context Builder for IDE Agents",
@@ -21,6 +21,11 @@ def main_plan():
 def main_exec():
     """Execute a documentation plan."""
     exec.run_exec()
+
+@app.command(name="update")
+def main_update():
+    """Update documentation based on the current codebase state."""
+    update.run_update()
 
 if __name__ == "__main__":
     app()

@@ -12,14 +12,26 @@ It **does not** run LLMs locally. It orchestrates the process of gathering conte
 
 ### 1. Installation
 
-Prerequisites: Python 3.10+
+### 1. Installation
 
+**Recommended: Install via pipx**
+This makes `vdoc` available as a global command in your terminal.
+
+```bash
+# Install from local directory
+pipx install .
+
+# Or from git
+pipx install git+https://github.com/sandrinio/vdoc_documentator.git
+```
+
+**Alternative: Dev/Editable Install**
 ```bash
 # Clone the repository
 git clone https://github.com/sandrinio/vdoc_documentator.git
 cd vdoc_documentator
 
-# Install dependencies
+# Install dependencies in editable mode
 pip install -e .
 ```
 
@@ -28,7 +40,9 @@ pip install -e .
 Connect the CLI to your project using your VibePM API Key.
 
 ```bash
-python -m vdoc.main init --api-key <YOUR_API_KEY>
+```bash
+vdoc init --api-key <YOUR_API_KEY>
+```
 ```
 *This creates a `.vdoc/config.json` file in your project root.*
 
@@ -43,7 +57,8 @@ The "VDoc Loop" consists of two simple steps: **Plan** and **Execute**.
 This command scans your codebase and generates a `PLANNING_PROMPT.md` file.
 
 ```bash
-python -m vdoc.main plan
+```bash
+vdoc plan
 ```
 
 **What happens:**
@@ -58,7 +73,8 @@ python -m vdoc.main plan
 Once the agent has created the plan, this command prepares the specific instructions for writing the files.
 
 ```bash
-python -m vdoc.main exec
+```bash
+vdoc exec
 ```
 
 **What happens:**
