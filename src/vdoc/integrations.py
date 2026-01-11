@@ -172,7 +172,14 @@ When the user asks to "generate documentation" or "plan documentation", follow t
     *   Read the output.
     *   Follow the instructions to write the actual documentation files.
     
-Always check for existing `.vdoc/spec.md` context before planning.
+    ## Command Shortcuts
+    If the user types these "slash commands", specifically run the corresponding terminal command:
+    *   `/vdoc-plan` -> Run `vdoc plan`
+    *   `/vdoc-exec` -> Run `vdoc exec`
+    *   `/vdoc-help` -> Run `vdoc --help`
+    *   `/vdoc-clean` -> Run `vdoc clean`
+    
+    Always check for existing `.vdoc/spec.md` context before planning.
 """
     with open(file_path, "w") as f:
         f.write(content)
