@@ -55,7 +55,8 @@ def run_exec(save: bool = False):
         "---",
         "## Instruction",
         "Please execute the above plan. Write the documentation files as specified.",
-        "Ensure you follow the project's documentation rules."
+        "Ensure you follow the project's documentation rules.",
+        prompt_data.METADATA_INSTRUCTION
     ]
     
     if not save:

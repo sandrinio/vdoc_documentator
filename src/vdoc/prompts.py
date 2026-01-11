@@ -35,50 +35,101 @@ You have access to your IDE's codebase search tools (e.g., Cursor @Codebase, Cop
   * "I'm documenting the report generation feature. Find the entry point (API endpoint or function), trace through the business logic, identify what data sources are queried, and show me how reports are formatted and returned to users."
 
 **WORKFLOW:**
-1. **Read Task Context**: You'll receive a task description and candidate files
-2. **Formulate Rich Queries**: Think about what you need to learn, then ask comprehensive questions
-3. **Active Research**: Call your research tool 3-5 times with different rich queries
-4. **Synthesize**: Combine research findings into comprehensive documentation
-   - Call it multiple times with different queries to build complete picture
-   - The researcher will return actual code, file paths, and evidence
+1. **Analyze the Plan**: specific files are requested. You MUST create ALL of them.
+2. **Execute Item-by-Item**:
+   - For EACH target file in the plan:
+     a. **Research**: Query the codebase for that specific module/feature.
+     b. **Write**: Create the file with the standard format.
+3. **Verify Completeness**: Check that every file listed in the plan exists in your output.
+   - Do NOT skip files.
+   - Do NOT stop until the entire plan is executed.
 
 **REQUIRED OUTPUT FORMAT (Markdown):**
-# Documentation: {doc_name}
-
-- **Version:** 1.0.0
-- **Last Updated:** {date}
-- **Status:** Automated Draft
+Documentation: {doc_name}
+Version: 1.0.0
+Last Updated: {date}
 
 ## 1. Overview & Purpose
-*   **Value Proposition:** What business problem does this solve?
-*   **Key Capabilities:** Bulleted list of features.
-*   **User Workflows:** Step-by-step user journey.
+{Brief description of the feature/module}
+*   **Value Proposition:** {Business value/problem solved}
+*   **Key Capabilities:** {Bulleted list}
+*   **User Workflows:** {Step-by-step user journey}
 
 ## 2. Core Concepts & Logic
-*   **Architecture Pattern:** High-level design pattern used.
-*   **Data Flow:** How data moves through the system.
+{Description of core mechanics}
+*   **Architecture Pattern:** {e.g., Worker Pool, Publisher-Subscriber, Client-Server Stream}
+*   **Data Flow:** {Description of how data moves}
 
 ### Visual Architecture
 ```mermaid
 graph TD;
     User[User Action] --> API[API Endpoint];
     API --> DB[(Database)];
+    %% Add more nodes and connections
 ```
 
 ## 3. Key Files & Components
+
 | Component | File Path | Purpose |
 | :--- | :--- | :--- |
-| Name | path/to/file | Brief description |
+| **Category Name** | | |
+| ComponentName | `path/to/file` | Brief description |
 
 ## 4. Technical Specifications
-*   **API Interface:** Key functions/endpoints with signatures.
-*   **Data Models:** Key schemas with field descriptions.
-*   **Code Examples:** Real code snippets from the codebase.
+### API Interface
+{Description of primary interfaces}
+```typescript
+// Interface definition or API signature
+```
+
+### Data Models
+{Description of key data structures/schemas}
+```typescript
+// Interface or schema definition
+```
+
+### Code Examples
+#### 1. {Example Title}
+{Description of what this example demonstrates}
+// File: path/to/file
+```typescript
+// Real code snippet
+```
 
 **QUALITY STANDARDS:**
-*   Include actual code examples from research
-*   Reference specific file paths and line numbers
-*   Explain WHY, not just WHAT
-*   Use mermaid diagrams for complex flows
-*   NEVER return empty documentation
+*   **Strictly follow the headers above.**
+*   **Code Examples:**
+    *   Target **KEY logic only** (critical algorithms, complex state updates, unique configs).
+    *   **Truncate boilerplate:** Use `// ... existing code ...` to skip imports, standard setups, or irrelevant details.
+    *   Keep snippets focused (e.g., 20-30 lines max unless critical).
+*   Include actual code from research (do not hallucinate).
+*   Reference specific file paths.
+*   Explain WHY, not just WHAT.
+*   Use mermaid diagrams for complex flows.
+*   NEVER return empty documentation.
+*   Do NOT include "Status: Automated Draft".
+"""
+
+
+METADATA_INSTRUCTION = """
+## 5. Metadata Generation (CRITICAL)
+After generating the documentation files, you MUST create/update a file named `product_documentation/_vdoc_metadata.json`.
+This file acts as a registry for the AI to understand what documentation is available.
+
+**Schema:**
+```json
+{
+  "last_updated": "YYYY-MM-DD",
+  "documents": [
+    {
+      "file": "filename.md",
+      "description": "Brief summary of what this document covers.",
+      "version": "1.0.0",
+      "last_updated": "YYYY-MM-DD"
+    }
+  ]
+}
+```
+
+**Rule:** ensure every file you create or update is listed here.
 """

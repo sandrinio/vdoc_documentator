@@ -1,5 +1,5 @@
 import typer
-from .commands import init, plan, exec, update
+from .commands import init, plan, exec, update, clean
 from typing import Optional
 import importlib.metadata
 
@@ -48,6 +48,11 @@ def main_exec(save: bool = typer.Option(False, "--save", help="Save prompt to fi
 def main_update(save: bool = typer.Option(False, "--save", help="Save prompt to file instead of stdout")):
     """Update documentation based on the current codebase state."""
     update.run_update(save)
+
+@app.command(name="clean")
+def main_clean():
+    """Clean up VDoc configuration and generated context."""
+    clean.run_clean()
 
 if __name__ == "__main__":
     app()
