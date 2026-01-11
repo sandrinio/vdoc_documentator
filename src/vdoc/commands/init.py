@@ -19,8 +19,32 @@ def run_init(api_key: Optional[str] = None):
 
     console.print(f"[bold blue]Initializing vdoc in:[/bold blue] {root_path}")
     
+    # Interactive Setup
+    project_name = typer.prompt("Project Name", default=root_path.name)
+    
+    console.print("\n[bold]Select your Integrations:[/bold]")
+    console.print("1. Antigravity (VS Code Ext)")
+    console.print("2. VS Code Copilot")
+    console.print("3. Cursor")
+    console.print("4. Gemini CLI (Generic)")
+    console.print("5. Claude Code")
+    console.print("6. All [default]")
+    
+    tools_input = typer.prompt("Selection (comma separated)", default="6")
+    
+    selected_tools = []
+    if "6" in tools_input or tools_input.strip() == "":
+        selected_tools = ["antigravity", "vscode_copilot", "cursor", "gemini", "claude"]
+    else:
+        if "1" in tools_input: selected_tools.append("antigravity")
+        if "2" in tools_input: selected_tools.append("vscode_copilot")
+        if "3" in tools_input: selected_tools.append("cursor")
+        if "4" in tools_input: selected_tools.append("gemini")
+        if "5" in tools_input: selected_tools.append("claude")
+    
     # Create default config
     config = VDocConfig(api_key=api_key)
+    # TODO: We might want to save project_name to config in future
     
     try:
         # 1. Save Config
@@ -28,7 +52,7 @@ def run_init(api_key: Optional[str] = None):
         console.print(f"[bold green]✓[/bold green] Created {config_path.name}")
         
         # 2. Run Integrations (Inject Rules)
-        setup_integrations(root_path)
+        setup_integrations(root_path, tools=selected_tools)
         
         # 3. Scan & Create Context Map
         with console.status("[bold green]Scanning codebase...[/bold green]"):

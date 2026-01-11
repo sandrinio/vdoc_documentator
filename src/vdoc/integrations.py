@@ -107,12 +107,185 @@ description: Execute the VDoc Documentation Plan
         f.write(exec_content)
     console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-exec.md[/bold]")
 
-def setup_integrations(root_path: Path):
+    # Workflow 3: VDoc Init
+    init_workflow = workflows_dir / "vdoc-init.md"
+    init_content = """---
+description: Initialize VDoc in the current project
+---
+1. Run `vdoc init`.
+"""
+    with open(init_workflow, "w") as f:
+        f.write(init_content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-init.md[/bold]")
+
+    # Workflow 4: VDoc Update
+    update_workflow = workflows_dir / "vdoc-update.md"
+    update_content = """---
+description: Update existing documentation based on codebase changes
+---
+1. Run `vdoc update`.
+"""
+    with open(update_workflow, "w") as f:
+        f.write(update_content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-update.md[/bold]")
+
+    # Workflow 5: VDoc Clean
+    clean_workflow = workflows_dir / "vdoc-clean.md"
+    clean_content = """---
+description: Clean up VDoc configuration and contexts
+---
+1. Run `vdoc clean`.
+"""
+    with open(clean_workflow, "w") as f:
+        f.write(clean_content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-clean.md[/bold]")
+
+    # Workflow 6: VDoc Help
+    help_workflow = workflows_dir / "vdoc-help.md"
+    help_content = """---
+description: Show VDoc help and available commands
+---
+1. Run `vdoc --help`.
+"""
+    with open(help_workflow, "w") as f:
+        f.write(help_content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-help.md[/bold]")
+
+
+def inject_copilot_instructions(root_path: Path):
+    """Generates .github/copilot-instructions.md for VS Code Copilot."""
+    github_dir = root_path / ".github"
+    github_dir.mkdir(exist_ok=True)
+    
+    file_path = github_dir / "copilot-instructions.md"
+    content = """# VDoc Instructions for GitHub Copilot
+
+When the user asks to "generate documentation" or "plan documentation", follow these steps:
+
+1.  **Planning Phase**:
+    *   Run `vdoc plan` in the terminal.
+    *   Read the output (which is a System Prompt).
+    *   Follow the instructions to generate `.vdoc/doc_plan.md`.
+
+2.  **Execution Phase**:
+    *   Run `vdoc exec` in the terminal.
+    *   Read the output.
+    *   Follow the instructions to write the actual documentation files.
+    
+Always check for existing `.vdoc/spec.md` context before planning.
+"""
+    with open(file_path, "w") as f:
+        f.write(content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].github/copilot-instructions.md[/bold]")
+
+def inject_claude_config(root_path: Path):
+    """Generates CLAUDE.md for Claude Code CLI."""
+    file_path = root_path / "CLAUDE.md"
+    content = """# Claude Code Configuration
+
+## Commands
+- **Box**: `vdoc plan` - Generate documentation plan
+- **Exec**: `vdoc exec` - Execute documentation plan
+- **Clean**: `vdoc clean` - Remove generated context
+- **Help**: `vdoc --help` - Show help
+- **Init**: `vdoc init` - Initialize project
+
+## Guidelines
+- Always look for `.vdoc/spec.md` when planning.
+- Write documentation to `product_documentation/`.
+"""
+    with open(file_path, "w") as f:
+        f.write(content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold]CLAUDE.md[/bold]")
+
+def inject_vscode_tasks(root_path: Path):
+    """Generates .vscode/tasks.json for easy command execution."""
+    vscode_dir = root_path / ".vscode"
+    vscode_dir.mkdir(exist_ok=True)
+    
+    tasks_file = vscode_dir / "tasks.json"
+    
+    # Simple check to avoid overwriting complex existing tasks (naive append isn't safe for JSON)
+    # For now, only write if it doesn't exist to be safe.
+    if tasks_file.exists():
+        console.print("[yellow]! .vscode/tasks.json exists. Skipping to avoid overwrite.[/yellow]")
+        return
+        
+    content = """{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "vdoc: plan",
+            "type": "shell",
+            "command": "vdoc plan",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": "build"
+        },
+        {
+            "label": "vdoc: exec",
+            "type": "shell",
+            "command": "vdoc exec",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": "test"
+        }
+    ]
+}"""
+    with open(tasks_file, "w") as f:
+        f.write(content)
+    with open(tasks_file, "w") as f:
+        f.write(content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold].vscode/tasks.json[/bold]")
+
+def inject_gemini_context(root_path: Path):
+    """Generates VDOC_INSTRUCTIONS.md for Gemini CLI / Generic Agents."""
+    file_path = root_path / "VDOC_INSTRUCTIONS.md"
+    content = """# VDoc Workflow Instructions
+
+Use these commands to interact with the documentation generator:
+
+1. **PLANNING**:
+   - Run: `vdoc plan`
+   - Action: Read the output system prompt and follow it to create `.vdoc/doc_plan.md`.
+
+2. **EXECUTION**:
+   - Run: `vdoc exec`
+   - Action: Read the output system prompt and follow it to write files to `product_documentation/`.
+
+3. **CLEANUP**:
+   - Run: `vdoc clean`
+   - Action: Removes generated context files.
+"""
+    with open(file_path, "w") as f:
+        f.write(content)
+    console.print(f"[bold green]✓[/bold green] Injected [bold]VDOC_INSTRUCTIONS.md[/bold]")
+
+def setup_integrations(root_path: Path, tools: list[str] = None):
     """
-    Sets up all supported integrations.
-    Current support:
-    - Cursor Rules (.mdc)
-    - Antigravity Workflows (.md)
+    Sets up integrations based on user selection.
+    tools: keys = antigravity, cursor, vscode_copilot, claude, gemini
     """
-    inject_cursor_rules(root_path)
-    inject_antigravity_workflows(root_path)
+    if tools is None:
+        # Default to all if not specified (though init usually specifies)
+        tools = ["antigravity", "cursor", "vscode_copilot", "claude", "gemini"]
+        
+    if "antigravity" in tools:
+        inject_antigravity_workflows(root_path)
+
+    if "cursor" in tools:
+        inject_cursor_rules(root_path)
+        
+    if "vscode_copilot" in tools:
+        inject_copilot_instructions(root_path)
+        inject_vscode_tasks(root_path)
+
+    if "claude" in tools:
+        inject_claude_config(root_path)
+        
+    if "gemini" in tools:
+        inject_gemini_context(root_path)
