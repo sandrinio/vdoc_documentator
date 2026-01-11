@@ -1,5 +1,5 @@
 import typer
-from .commands import init, plan, exec, update, clean
+from .commands import init, plan, exec, update, delete_cli
 from typing import Optional
 import importlib.metadata
 
