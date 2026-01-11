@@ -14,15 +14,16 @@ It **does not** run LLMs locally. It orchestrates the process of gathering conte
 
 ### 1. Installation
 
-**Recommended: Install via pipx**
-This makes `vdoc` available as a global command in your terminal.
-
+**Quick Install / Update (Recommended)**
+Run this command to install or forcefuly reinstall the latest version:
 ```bash
-# Install from local directory
-pipx install .
+curl -sL https://raw.githubusercontent.com/sandrinio/vdoc_documentator/main/install.sh | bash
+```
 
-# Or from git
-pipx install git+https://github.com/sandrinio/vdoc_documentator.git
+**Manual Install via pipx**
+```bash
+# Force install from git
+pipx install git+https://github.com/sandrinio/vdoc_documentator.git --force
 ```
 
 **Alternative: Dev/Editable Install**
