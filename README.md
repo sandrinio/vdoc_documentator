@@ -38,14 +38,29 @@ pip install -e .
 
 ### 2. Initialization
 
-Connect the CLI to your project using your VibePM API Key.
+Run the interactive initialization wizard to set up VDoc for your specific environment.
 
-```bash
 ```bash
 vdoc init --api-key <YOUR_API_KEY>
 ```
-```
-*This creates a `.vdoc/config.json` file in your project root.*
+
+The wizard will ask for:
+1. **Project Name**
+2. **Integration Target** (VS Code, Cursor, Claude Code, etc.)
+
+Depending on your selection, VDoc will inject the necessary configuration files (Tasks, Rules, Instructions) to make your AI Agent understand the workflow.
+
+## 🔌 Supported Integrations
+
+VDoc automatically configures your environment for seamless Agent interaction:
+
+| Platform | Features Injected |
+| :--- | :--- |
+| **VS Code (Antigravity)** | Slash Commands (`/vdoc-plan`, `/vdoc-exec`, etc.) |
+| **VS Code (Copilot)** | `.github/copilot-instructions.md`, `.vscode/tasks.json` |
+| **Cursor** | `.cursor/rules/*.mdc` (Context-aware Rules) |
+| **Claude Code** | `CLAUDE.md` (Project Commands) |
+| **Gemini CLI** | `VDOC_INSTRUCTIONS.md` (Context Reference) |
 
 ---
 
