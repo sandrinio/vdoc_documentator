@@ -129,16 +129,16 @@ description: Update existing documentation based on codebase changes
         f.write(update_content)
     console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-update.md[/bold]")
 
-    # Workflow 5: VDoc Clean
-    clean_workflow = workflows_dir / "vdoc-clean.md"
+    # Workflow 5: VDoc Delete CLI
+    clean_workflow = workflows_dir / "vdoc-delete-cli.md"
     clean_content = """---
-description: Clean up VDoc configuration and contexts
+description: Remove all VDoc configuration and integrations (Preserve Docs)
 ---
-1. Run `vdoc clean`.
+1. Run `vdoc delete-cli`.
 """
     with open(clean_workflow, "w") as f:
         f.write(clean_content)
-    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-clean.md[/bold]")
+    console.print(f"[bold green]✓[/bold green] Injected [bold].agent/workflows/vdoc-delete-cli.md[/bold]")
 
     # Workflow 6: VDoc Help
     help_workflow = workflows_dir / "vdoc-help.md"
@@ -260,7 +260,7 @@ The following slash commands are enabled for this project. When invoked, run the
 - `/vdoc-init`: `vdoc init` - Initialize VDoc
 - `/vdoc-plan`: `vdoc plan` - Generate documentation plan
 - `/vdoc-exec`: `vdoc exec` - Execute documentation plan
-- `/vdoc-clean`: `vdoc clean` - Clean up generated files
+- `/vdoc-delete-cli`: `vdoc delete-cli` - Remove configuration
 - `/vdoc-help`: `vdoc --help` - Show help message
 """
     with open(file_path, "w") as f:

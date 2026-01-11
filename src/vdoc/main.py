@@ -49,10 +49,10 @@ def main_update(save: bool = typer.Option(False, "--save", help="Save prompt to 
     """Update documentation based on the current codebase state."""
     update.run_update(save)
 
-@app.command(name="clean")
-def main_clean():
-    """Clean up VDoc configuration and generated context."""
-    clean.run_clean()
+@app.command(name="delete-cli")
+def main_delete_cli():
+    """Remove all VDoc configuration and integrations."""
+    delete_cli.run_delete_cli()
 
 if __name__ == "__main__":
     app()

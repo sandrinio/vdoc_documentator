@@ -60,7 +60,9 @@ VDoc automatically configures your environment for seamless Agent interaction:
 | **VS Code (Copilot)** | `.github/copilot-instructions.md`, `.vscode/tasks.json` |
 | **Cursor** | `.cursor/rules/*.mdc` (Context-aware Rules) |
 | **Claude Code** | `CLAUDE.md` (Project Commands) |
-| **Gemini CLI** | `VDOC_INSTRUCTIONS.md` (Context Reference) |
+| **Gemini CLI** | `GEMINI.md` (Slash Command Mappings) |
+
+> **Cleanup:** Run `vdoc delete-cli` (or `/vdoc-delete-cli`) to remove all generated configuration files and rules while preserving your documentation.
 
 ---
 
