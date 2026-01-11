@@ -1,0 +1,23 @@
+---
+description: Execute the VDoc Documentation Plan to write the actual documents.
+globs: .vdoc/doc_plan.md
+---
+# VDoc Exec
+
+Trigger this rule when the user types `/vdoc-exec` or explicitly asks to execute documentation plan.
+
+## Workflow
+
+1.  **Read Plan**: Read content of `.vdoc/doc_plan.md`.
+2.  **Execute**: Run `vdoc exec` in the terminal.
+3.  **Read Prompt**: Read properties of `product_documentation/EXECUTION_PROMPT.md`.
+4.  **Action**: Follow the instructions in the prompt to write the actual documentation files (e.g., in `product_documentation/`).
+
+
+## Goal
+Produce high-quality, verified documentation based on the approved plan.
+
+## Agent Role
+The system instructions are dynamically generated.
+1. Run `vdoc exec` (Step 2 above).
+2. **Action:** The output of the command is your System Prompt. Adopt the persona and instructions defined there.

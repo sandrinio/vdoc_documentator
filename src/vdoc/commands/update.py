@@ -4,7 +4,7 @@ from vdoc import config, services, scanner
 
 console = Console()
 
-def run_update():
+def run_update(save: bool = False):
     """
     Update documentation based on the current codebase state.
     """
@@ -46,6 +46,11 @@ def run_update():
         "Pay attention to any new files or deleted files."
     ]
     
+    if not save:
+        # Default: Print content to stdout
+        print("\n".join(content))
+        return
+
     with open(output_file, "w") as f:
         f.write("\n".join(content))
         

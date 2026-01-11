@@ -4,7 +4,7 @@ from rich.console import Console
 from pathlib import Path
 from vdoc.config import save_config, VDocConfig, get_config_path
 from vdoc.integrations import setup_integrations
-from vdoc import scanner, services
+from vdoc import scanner, services, prompts as prompt_data
 
 console = Console()
 
@@ -48,6 +48,10 @@ def run_init(api_key: Optional[str] = None):
         else:
              console.print(f"[yellow]! .vdoc/spec.md already exists. Skipping.[/yellow]")
 
+        # 3.75 Create Prompts Directory (Removed)
+        pass
+
+
         # 4. Generate INIT_PROMPT.md
         output_dir = root_path / "product_documentation"
         output_dir.mkdir(exist_ok=True)
@@ -71,13 +75,12 @@ def run_init(api_key: Optional[str] = None):
             "Identify key areas that need documentation and suggest a structure for `.vdoc/spec.md`.",
         ]
         
-        init_prompt_file = output_dir / "INIT_PROMPT.md"
-        with open(init_prompt_file, "w") as f:
-            f.write("\n".join(init_prompt_content))
-            
-        console.print(f"[bold green]✓[/bold green] Generated [bold]{init_prompt_file.relative_to(root_path)}[/bold]")
+        # Default: Print content to stdout (no --save logic for init for now as it's less critical, or just always print)
+        # But per user request "injects prompt directly", init should also just print the prompt.
+        print("\n".join(init_prompt_content))
+        
         console.print("[green]Project initialized successfully.[/green]")
-        console.print("Feed `product_documentation/INIT_PROMPT.md` to your Agent to start the Spec phase.")
+        console.print("The prompt above is ready for your Agent to start the Spec phase.")
 
     except Exception as e:
         console.print(f"[bold red]Error initializing project:[/bold red] {e}")

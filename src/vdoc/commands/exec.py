@@ -1,11 +1,11 @@
 from pathlib import Path
 from rich.console import Console
 import typer
-from vdoc import config, services
+from vdoc import config, services, prompts as prompt_data
 
 console = Console()
 
-def run_exec():
+def run_exec(save: bool = False):
     """
     Execute the documentation plan.
     """
@@ -25,7 +25,11 @@ def run_exec():
     # 2. Fetch Prompts (Writer)
     with console.status("[bold green]Fetching prompts...[/bold green]"):
         cfg = config.load_config()
-        prompts = services.get_prompts_sync(cfg.api_key)
+        # prompts = services.get_prompts_sync(cfg.api_key) # Deprecated
+        pass
+
+    # 2.5 Read External Prompts (Reverted)
+    pass
         
     # 3. Read Plan
     with open(plan_file, "r") as f:
@@ -41,7 +45,7 @@ def run_exec():
         "# VDoc Execution Prompt",
         "",
         "> **Instructions for the Agent:**",
-        prompts.get("writer_system_prompt", "Execute the plan below and write the documentation."), # Fallback
+        prompt_data.WRITER_SYSTEM_PROMPT,
         "",
         "---",
         "",
@@ -54,6 +58,11 @@ def run_exec():
         "Ensure you follow the project's documentation rules."
     ]
     
+    if not save:
+        # Default behavior: Print to stdout
+        print("\n".join(content))
+        return
+
     with open(output_file, "w") as f:
         f.write("\n".join(content))
         

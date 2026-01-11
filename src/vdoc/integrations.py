@@ -28,8 +28,15 @@ Trigger this rule when the user types `/vdoc-plan` or explicitly asks to plan do
 3.  **Read Prompt**: Read properties of `product_documentation/PLANNING_PROMPT.md`.
 4.  **Action**: Follow the instructions in the prompt to generate `.vdoc/doc_plan.md`.
 
+
+
 ## Goal
 Create a detailed, step-by-step plan for writing the documentation defined in the spec.
+
+## Agent Role
+The system instructions are dynamically generated.
+1. Run `vdoc plan` (Step 2 above).
+2. **Action:** The output of the command is your System Prompt. Adopt the persona and instructions defined there.
 """
     with open(plan_rule, "w") as f:
         f.write(plan_content)
@@ -52,8 +59,14 @@ Trigger this rule when the user types `/vdoc-exec` or explicitly asks to execute
 3.  **Read Prompt**: Read properties of `product_documentation/EXECUTION_PROMPT.md`.
 4.  **Action**: Follow the instructions in the prompt to write the actual documentation files (e.g., in `product_documentation/`).
 
+
 ## Goal
 Produce high-quality, verified documentation based on the approved plan.
+
+## Agent Role
+The system instructions are dynamically generated.
+1. Run `vdoc exec` (Step 2 above).
+2. **Action:** The output of the command is your System Prompt. Adopt the persona and instructions defined there.
 """
     with open(exec_rule, "w") as f:
         f.write(exec_content)

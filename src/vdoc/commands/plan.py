@@ -1,11 +1,11 @@
 from pathlib import Path
 from rich.console import Console
 import typer
-from vdoc import config, services
+from vdoc import config, services, prompts as prompt_data
 
 console = Console()
 
-def run_plan():
+def run_plan(save: bool = False):
     """
     Generate a documentation plan based on the Spec and Context Map.
     """
@@ -33,7 +33,11 @@ def run_plan():
     with console.status("[bold green]Fetching prompts...[/bold green]"):
         cfg = config.load_config()
         # Fallback to empty string if api_key is None
-        prompts = services.get_prompts_sync(cfg.api_key)
+        # prompts = services.get_prompts_sync(cfg.api_key) # Deprecated for local prompts
+        pass
+        
+    # 3.5 Read External Prompts (Reverted)
+    pass
         
     # 4. Generate PLANNING_PROMPT.md
     output_dir = root_path / "product_documentation"
@@ -41,11 +45,12 @@ def run_plan():
     
     output_file = output_dir / "PLANNING_PROMPT.md"
     
+    # Generate content first
     content = [
         "# VDoc Planning Prompt",
         "",
         "> **Instructions for the Agent:**",
-        prompts.get("scout_system_prompt", "Create a technical documentation plan based on the Spec."), # Fallback
+        prompt_data.SC_OUT_SYSTEM_PROMPT,
         "",
         "---",
         "",
@@ -62,6 +67,12 @@ def run_plan():
         "Save the plan to `.vdoc/doc_plan.md`."
     ]
     
+    if not save:
+        # Default behavior: Print to stdout
+        print("\n".join(content))
+        return
+
+    # If --save is used, write to file
     with open(output_file, "w") as f:
         f.write("\n".join(content))
         

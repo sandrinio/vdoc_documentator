@@ -13,19 +13,19 @@ def main_init(api_key: str = typer.Option(None, help="VibePM API Key")):
     init.run_init(api_key)
 
 @app.command(name="plan")
-def main_plan():
+def main_plan(save: bool = typer.Option(False, "--save", help="Save prompt to file instead of stdout")):
     """Generate a documentation context map and planning prompt."""
-    plan.run_plan()
+    plan.run_plan(save)
 
 @app.command(name="exec")
-def main_exec():
+def main_exec(save: bool = typer.Option(False, "--save", help="Save prompt to file instead of stdout")):
     """Execute a documentation plan."""
-    exec.run_exec()
+    exec.run_exec(save)
 
 @app.command(name="update")
-def main_update():
+def main_update(save: bool = typer.Option(False, "--save", help="Save prompt to file instead of stdout")):
     """Update documentation based on the current codebase state."""
-    update.run_update()
+    update.run_update(save)
 
 if __name__ == "__main__":
     app()

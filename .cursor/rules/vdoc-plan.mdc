@@ -1,0 +1,24 @@
+---
+description: Run the VDoc Planning workflow to generate a documentation plan.
+globs: .vdoc/spec.md
+---
+# VDoc Plan
+
+Trigger this rule when the user types `/vdoc-plan` or explicitly asks to plan documentation.
+
+## Workflow
+
+1.  **Read Context**: Read content of `.vdoc/context_map.md` and `.vdoc/spec.md`.
+2.  **Execute**: Run `vdoc plan` in the terminal.
+3.  **Read Prompt**: Read properties of `product_documentation/PLANNING_PROMPT.md`.
+4.  **Action**: Follow the instructions in the prompt to generate `.vdoc/doc_plan.md`.
+
+
+
+## Goal
+Create a detailed, step-by-step plan for writing the documentation defined in the spec.
+
+## Agent Role
+The system instructions are dynamically generated.
+1. Run `vdoc plan` (Step 2 above).
+2. **Action:** The output of the command is your System Prompt. Adopt the persona and instructions defined there.

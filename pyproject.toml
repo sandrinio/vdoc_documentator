@@ -18,6 +18,7 @@ dependencies = [
     "httpx>=0.25.0",
     "pydantic>=2.0.0",
     "gitpython>=3.1.0",
+    "toml>=0.10.0",
 ]
 
 [project.optional-dependencies]
