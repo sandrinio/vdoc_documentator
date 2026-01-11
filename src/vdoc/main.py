@@ -1,11 +1,33 @@
 import typer
 from .commands import init, plan, exec, update
+from typing import Optional
+import importlib.metadata
 
 app = typer.Typer(
     help="VDoc - Local Context Builder for IDE Agents",
     add_completion=True,
     rich_markup_mode="rich"
 )
+
+def version_callback(value: bool):
+    if value:
+        try:
+            version = importlib.metadata.version("vdoc")
+        except importlib.metadata.PackageNotFoundError:
+            version = "unknown"
+        typer.echo(f"vdoc version: {version}")
+        raise typer.Exit()
+
+@app.callback()
+def main(
+    version: Optional[bool] = typer.Option(
+        None, "--version", "-v", help="Show the application version and exit.", callback=version_callback, is_eager=True
+    )
+):
+    """
+    VDoc - Local Context Builder for IDE Agents
+    """
+    pass
 
 @app.command(name="init")
 def main_init(api_key: str = typer.Option(None, help="VibePM API Key")):

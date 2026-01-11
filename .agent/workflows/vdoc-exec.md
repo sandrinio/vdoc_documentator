@@ -1,7 +1,7 @@
 ---
-description: Run the VDoc Execution Step
+description: Execute the VDoc Documentation Plan
 ---
-1. Run the vdoc execution command
-// turbo
-2. vdoc exec
-3. Read product_documentation/EXECUTION_PROMPT.md
+1. Read `.vdoc/doc_plan.md`.
+2. Run `vdoc exec`.
+3. Read `product_documentation/EXECUTION_PROMPT.md`.
+4. Follow the prompt instructions to write the documentation.
