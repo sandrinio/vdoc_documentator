@@ -177,7 +177,7 @@ When the user asks to "generate documentation" or "plan documentation", follow t
     *   `/vdoc-plan` -> Run `vdoc plan`
     *   `/vdoc-exec` -> Run `vdoc exec`
     *   `/vdoc-help` -> Run `vdoc --help`
-    *   `/vdoc-clean` -> Run `vdoc clean`
+    *   `/vdoc-delete-cli` -> Run `vdoc delete-cli`
     
     Always check for existing `.vdoc/spec.md` context before planning.
 """
@@ -193,7 +193,7 @@ def inject_claude_config(root_path: Path):
 ## Commands
 - **Box**: `vdoc plan` - Generate documentation plan
 - **Exec**: `vdoc exec` - Execute documentation plan
-- **Clean**: `vdoc clean` - Remove generated context
+- **Delete**: `vdoc delete-cli` - Remove configuration
 - **Help**: `vdoc --help` - Show help
 - **Init**: `vdoc init` - Initialize project
 
