@@ -250,27 +250,22 @@ def inject_vscode_tasks(root_path: Path):
     console.print(f"[bold green]✓[/bold green] Injected [bold].vscode/tasks.json[/bold]")
 
 def inject_gemini_context(root_path: Path):
-    """Generates VDOC_INSTRUCTIONS.md for Gemini CLI / Generic Agents."""
-    file_path = root_path / "VDOC_INSTRUCTIONS.md"
-    content = """# VDoc Workflow Instructions
+    """Generates GEMINI.md for Gemini CLI."""
+    file_path = root_path / "GEMINI.md"
+    content = """# Gemini Project Context
 
-Use these commands to interact with the documentation generator:
+## Available Commands
+The following slash commands are enabled for this project. When invoked, run the corresponding shell command:
 
-1. **PLANNING**:
-   - Run: `vdoc plan`
-   - Action: Read the output system prompt and follow it to create `.vdoc/doc_plan.md`.
-
-2. **EXECUTION**:
-   - Run: `vdoc exec`
-   - Action: Read the output system prompt and follow it to write files to `product_documentation/`.
-
-3. **CLEANUP**:
-   - Run: `vdoc clean`
-   - Action: Removes generated context files.
+- `/vdoc-init`: `vdoc init` - Initialize VDoc
+- `/vdoc-plan`: `vdoc plan` - Generate documentation plan
+- `/vdoc-exec`: `vdoc exec` - Execute documentation plan
+- `/vdoc-clean`: `vdoc clean` - Clean up generated files
+- `/vdoc-help`: `vdoc --help` - Show help message
 """
     with open(file_path, "w") as f:
         f.write(content)
-    console.print(f"[bold green]✓[/bold green] Injected [bold]VDOC_INSTRUCTIONS.md[/bold]")
+    console.print(f"[bold green]✓[/bold green] Injected [bold]GEMINI.md[/bold]")
 
 def setup_integrations(root_path: Path, tools: list[str] = None):
     """
