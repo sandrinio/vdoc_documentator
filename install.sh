@@ -10,8 +10,14 @@ if ! command -v pipx &> /dev/null; then
     exit 1
 fi
 
-echo "Installing/Updating vdoc from ${REPO_URL}..."
-pipx install "$REPO_URL" --force
+# Check if vdoc is already installed
+if pipx list | grep -q "package vdoc"; then
+    echo "Found existing vdoc installation. Removing..."
+    pipx uninstall vdoc
+fi
+
+echo "Installing vdoc from ${REPO_URL}..."
+pipx install "$REPO_URL"
 
 if [ $? -eq 0 ]; then
     echo "✅ vdoc installed successfully!"
